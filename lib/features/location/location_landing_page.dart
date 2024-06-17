@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/location/bloc/location_bloc.dart';
 import 'package:weather_app/widgets/alertDialogs/error_dialog.dart';
-import '../model/location.dart';
 import '../weather/weather_screen.dart';
+import 'model/location.dart';
 
 class LocationLandingPage extends StatelessWidget {
   const LocationLandingPage({super.key});

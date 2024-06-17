@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:weather_app/features/weather/model/forecast.dart';
 import 'package:weather_app/features/weather/model/weather.dart';
 
 import '../repository/weather_repository.dart';

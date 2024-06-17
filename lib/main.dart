@@ -5,7 +5,7 @@ import 'package:weather_app/utils/themes/theme.dart';
 import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/weather_screen.dart';
 
-import 'features/location/location.dart';
+import 'features/location/model/location.dart';
 
 void main() {
   runApp(const MyApp());

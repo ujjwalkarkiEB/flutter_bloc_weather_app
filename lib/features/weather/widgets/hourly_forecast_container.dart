@@ -18,7 +18,7 @@ class WeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 228, 227, 223),
+      color: const Color.fromARGB(255, 228, 227, 223),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -31,8 +31,8 @@ class WeatherCard extends StatelessWidget {
             Expanded(
               child: Image.network(
                 icon,
-                height: 70,
-                width: 70,
+                height: 50,
+                width: 50,
                 fit: BoxFit.cover,
               ),
             ),

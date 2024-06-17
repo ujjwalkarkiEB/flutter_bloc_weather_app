@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
 
-import '../../widgets/appbar/custom_appbar.dart';
-import '../../widgets/container/current_weather_attribute_container.dart';
-import '../../widgets/hourly_forecast_container.dart';
-import '../../widgets/weekly_forecast_tile.dart';
-import '../location/location.dart';
+import '../../common/appbar/custom_appbar.dart';
+import 'widgets/current_weather_attribute_container.dart';
+import 'widgets/hourly_forecast_container.dart';
+import 'widgets/weekly_forecast_tile.dart';
+import '../location/model/location.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key, required this.location});
@@ -29,20 +29,30 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ));
   }
 
+  void _onSearch(String cityName) {
+    _searchController.clear();
+    context
+        .read<WeatherBloc>()
+        .add(WeatherHomeSearchIconPressed(city: cityName));
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<WeatherBloc, WeatherState>(
+    return BlocBuilder<WeatherBloc, WeatherState>(
       buildWhen: (previous, current) =>
           previous.runtimeType != current.runtimeType,
-      listener: (context, state) {},
       builder: (context, state) {
-        if (state is WeatherLoadingState && !_isRefreshedState(state)) {
-          // Show circular progress indicator only when not in refresh mode
-          return Scaffold(
+        if (state is WeatherLoadingState) {
+          return const Scaffold(
             appBar: CustomAppBar(
               city: 'Loading...',
               updatedTime: '',
-              onSearch: _onSearch,
             ),
             body: Center(
               child: CircularProgressIndicator(),
@@ -62,7 +72,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
             ),
             body: RefreshIndicator(
               onRefresh: () async {
-                // Dispatch refresh event
                 context.read<WeatherBloc>().add(
                       InitialDataFetchRequest(
                         latitude: widget.location.latitude,
@@ -71,8 +80,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     );
               },
               child: SingleChildScrollView(
-                physics:
-                    AlwaysScrollableScrollPhysics(), // Ensure scrolling is always enabled
                 child: Padding(
                   padding: const EdgeInsets.all(14),
                   child: Column(
@@ -85,7 +92,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         maxTemp: data.maxTemp,
                         minTemp: data.minTemp,
                       ),
-                      Gap(20),
+                      const Gap(20),
                       const Row(
                         children: [
                           Flexible(
@@ -126,7 +133,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               endIndent: 15,
                             ),
                           ),
-                          Text('Days Forecast'),
+                          Text('7 Days Forecast'),
                           Flexible(
                             child: Divider(
                               indent: 15,
@@ -143,7 +150,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           itemBuilder: (context, index) {
                             final forecast = weeklyForecasData[index];
                             return WeeklyAttributeTile(
-                              date: forecast.day!,
+                              date: DateTime.parse(forecast.day!),
                               dayType: forecast.weatherType,
                               humidity: forecast.humidity,
                               icon: forecast.image,
@@ -174,21 +181,5 @@ class _WeatherScreenState extends State<WeatherScreen> {
         );
       },
     );
-  }
-
-  // Helper function to check if the state is refreshed due to pull-to-refresh
-  bool _isRefreshedState(WeatherState state) =>
-      state is WeatherSuccessState && state.weatherData != null;
-
-  void _onSearch(String cityName) {
-    context
-        .read<WeatherBloc>()
-        .add(WeatherHomeSearchIconPressed(city: cityName));
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
   }
 }

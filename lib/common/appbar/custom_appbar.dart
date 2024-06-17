@@ -21,57 +21,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   TextEditingController searchController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 8, 10, 0),
-      child: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Last Updated: ${widget.updatedTime}',
-              style: const TextStyle(fontSize: 15),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => _showSearchDialog(context),
-            icon: const Icon(Icons.search),
-          ),
-          PopupMenuButton<int>(
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 1,
-                child: Row(
-                  children: [
-                    Icon(Icons.star),
-                    SizedBox(width: 10),
-                    Text("Get The App"),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 2,
-                child: Row(
-                  children: [
-                    Icon(Icons.chrome_reader_mode),
-                    SizedBox(width: 10),
-                    Text("About"),
-                  ],
-                ),
-              ),
-            ],
-            color: const Color.fromARGB(255, 224, 220, 220),
-            elevation: 2,
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showSearchDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -105,5 +54,29 @@ class _CustomAppBarState extends State<CustomAppBar> {
   void dispose() {
     searchController.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 8, 10, 0),
+      child: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Last Updated: ${widget.updatedTime}',
+              style: const TextStyle(fontSize: 15),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => _showSearchDialog(context),
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
+    );
   }
 }
