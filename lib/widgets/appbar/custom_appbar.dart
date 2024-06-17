@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+  const CustomAppBar(
+      {super.key, required this.city, required this.updatedTime});
+  final String city;
+  final String updatedTime;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -19,12 +22,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Updated 7/10/ 11:55 pm °C',
+            Text(
+              'Updated ${widget.updatedTime}',
               style: TextStyle(fontSize: 15),
             ),
             Text(
-              'Your Location: Kathmandu',
+              'Your current Location: ${widget.city}',
               style: TextStyle(fontSize: 12),
             )
           ],

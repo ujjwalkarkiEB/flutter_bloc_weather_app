@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/location/bloc/location_bloc.dart';
+import 'package:weather_app/features/location/bloc/location_bloc.dart';
 import 'package:weather_app/model/location.dart';
-
-import '../weather/weather_scren.dart';
+import 'package:weather_app/widgets/alertDialogs/error_dialog.dart';
+import '../weather/weather_screen.dart';
 
 class LocationLandingPage extends StatelessWidget {
   const LocationLandingPage({super.key});
@@ -57,6 +57,17 @@ class LocationLandingPage extends StatelessWidget {
                         ),
                         (route) => false);
                   }
+
+                  if (state is LocationAcessError) {
+                    showErrorDialog(context, state.errorMsg);
+                  }
+                  if (state is LocationPermissionDeniedState) {
+                    showErrorDialog(context, 'Failed to get User permission');
+                  }
+
+                  if (state is LocationServiceDisabledState) {
+                    showErrorDialog(context, 'Location service is disabled');
+                  }
                 },
                 builder: (context, state) {
                   bool isLoading = state is LocationFetchingState;
@@ -67,7 +78,7 @@ class LocationLandingPage extends StatelessWidget {
                         : () {
                             context
                                 .read<LocationBloc>()
-                                .add((LocationButtonClicked()));
+                                .add(LocationButtonClicked());
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightBlue[600],

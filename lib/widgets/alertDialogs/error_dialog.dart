@@ -5,11 +5,14 @@ void showErrorDialog(BuildContext context, String errorMessage) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Error'),
+        title: const Text('Error!'),
         content: Text(errorMessage),
         actions: <Widget>[
-          TextButton(
-            child: const Text('OK'),
+          ElevatedButton(
+            child: Text(
+              'OK',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },

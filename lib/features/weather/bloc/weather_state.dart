@@ -11,6 +11,7 @@ final class WeatherLoadingState extends WeatherState {}
 
 final class WeatherSuccessState extends WeatherState {
   final Weather weatherData;
+
   WeatherSuccessState({required this.weatherData});
 }
 

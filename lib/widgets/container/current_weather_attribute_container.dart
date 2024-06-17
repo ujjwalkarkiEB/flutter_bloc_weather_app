@@ -6,10 +6,14 @@ class WeatherAttributesContainer extends StatelessWidget {
       required this.city,
       required this.temp,
       required this.icon,
-      required this.type});
+      required this.type,
+      required this.maxTemp,
+      required this.minTemp});
 
   final String city;
   final double temp;
+  final double maxTemp;
+  final double minTemp;
   final String icon;
   final String type;
 
@@ -37,12 +41,12 @@ class WeatherAttributesContainer extends StatelessWidget {
               children: [
                 const Icon(Icons.arrow_upward),
                 Text(
-                  '26°',
+                  '${maxTemp.toStringAsFixed(2)}°',
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const Icon(Icons.arrow_downward),
                 Text(
-                  '13°',
+                  '${minTemp.toStringAsFixed(2)}°',
                   style: Theme.of(context).textTheme.labelSmall,
                 )
               ],

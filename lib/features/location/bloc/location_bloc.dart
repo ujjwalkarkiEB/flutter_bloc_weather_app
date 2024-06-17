@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:location/location.dart';
 import 'package:meta/meta.dart';
 
@@ -11,33 +10,33 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     on<LocationButtonClicked>((event, emit) async {
       emit(LocationFetchingState());
       Location location = Location();
-      bool _serviceEnabled;
-      PermissionStatus _permissionGranted;
-      LocationData _locationData;
+      bool serviceEnabled;
+      PermissionStatus permissionGranted;
+      LocationData locationData;
 
       try {
-        _serviceEnabled = await location.serviceEnabled();
-        if (!_serviceEnabled) {
-          _serviceEnabled = await location.requestService();
-          if (!_serviceEnabled) {
+        serviceEnabled = await location.serviceEnabled();
+        if (!serviceEnabled) {
+          serviceEnabled = await location.requestService();
+          if (!serviceEnabled) {
             emit(LocationAcessError(errorMsg: 'Location service is disabled'));
             return;
           }
         }
 
-        _permissionGranted = await location.hasPermission();
-        if (_permissionGranted == PermissionStatus.denied) {
-          _permissionGranted = await location.requestPermission();
-          if (_permissionGranted != PermissionStatus.granted) {
+        permissionGranted = await location.hasPermission();
+        if (permissionGranted == PermissionStatus.denied) {
+          permissionGranted = await location.requestPermission();
+          if (permissionGranted != PermissionStatus.granted) {
             emit(LocationPermissionDeniedState());
             return;
           }
         }
 
-        _locationData = await location.getLocation();
+        locationData = await location.getLocation();
         emit(LocationFetchedState(
-            longitude: _locationData.longitude!,
-            latitude: _locationData.latitude!));
+            longitude: locationData.longitude!,
+            latitude: locationData.latitude!));
       } catch (e) {
         emit(LocationAcessError(errorMsg: 'Failed to access your location'));
       }

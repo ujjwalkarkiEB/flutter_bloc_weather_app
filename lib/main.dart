@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/location/location_landing_page.dart';
+import 'package:weather_app/features/location/bloc/location_bloc.dart';
+import 'package:weather_app/model/location.dart';
 import 'package:weather_app/utils/themes/theme.dart';
-import 'package:weather_app/weather/bloc/weather_bloc.dart';
-import 'package:weather_app/weather/weather_scren.dart';
+import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
+import 'package:weather_app/features/weather/weather_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +15,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => WeatherBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => WeatherBloc()),
+        BlocProvider(create: (context) => LocationBloc()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: AppTheme.AppThemeData,
-        home: const LocationLandingPage(),
+        home: WeatherScreen(
+          location: LocationModel(latitude: 7, longitude: 8),
+        ),
       ),
     );
   }
