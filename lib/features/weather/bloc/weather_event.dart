@@ -10,4 +10,8 @@ final class InitialDataFetchRequest extends WeatherEvent {
   InitialDataFetchRequest({required this.latitude, required this.longitude});
 }
 
-final class WeatherHomeSearchIconPressed extends WeatherEvent {}
+final class WeatherHomeSearchIconPressed extends WeatherEvent {
+  final String city;
+
+  WeatherHomeSearchIconPressed({required this.city});
+}

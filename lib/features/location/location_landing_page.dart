@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/location/bloc/location_bloc.dart';
-import 'package:weather_app/model/location.dart';
 import 'package:weather_app/widgets/alertDialogs/error_dialog.dart';
+import '../model/location.dart';
 import '../weather/weather_screen.dart';
 
 class LocationLandingPage extends StatelessWidget {
@@ -47,13 +47,13 @@ class LocationLandingPage extends StatelessWidget {
                     previous.runtimeType != current.runtimeType,
                 listener: (context, state) {
                   if (state is LocationFetchedState) {
-                    final location = LocationModel(
+                    final currentLocation = LocationModel(
                         latitude: state.latitude, longitude: state.longitude);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              WeatherScreen(location: location),
+                              WeatherScreen(location: currentLocation),
                         ),
                         (route) => false);
                   }

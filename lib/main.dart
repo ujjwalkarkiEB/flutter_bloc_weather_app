@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/location/bloc/location_bloc.dart';
-import 'package:weather_app/model/location.dart';
 import 'package:weather_app/utils/themes/theme.dart';
 import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/weather_screen.dart';
+
+import 'features/location/location.dart';
 
 void main() {
   runApp(const MyApp());

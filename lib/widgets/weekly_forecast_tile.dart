@@ -33,18 +33,18 @@ class WeeklyAttributeTile extends StatelessWidget {
             width: 25,
             fit: BoxFit.contain,
           ),
-          Gap(10),
+          const Gap(10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.water_rounded,
+              const Icon(
+                Icons.water_drop,
                 size: 20,
                 color: Colors.blue,
               ),
               Text(
                 '${humidity.toStringAsFixed(2)}%',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                 ),
               )

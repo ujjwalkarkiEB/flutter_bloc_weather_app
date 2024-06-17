@@ -7,40 +7,43 @@ class WeatherCard extends StatelessWidget {
     required this.icon,
     required this.dayType,
     required this.humidity,
+    required this.time,
   });
   final double temp;
   final String icon;
   final String dayType;
   final double humidity;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Color.fromARGB(255, 228, 227, 223),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 100,
             ),
-            Column(
-              children: [
-                Text('1 PM'),
-                Image.network(
-                  icon,
-                  height: 50,
-                  width: 50,
-                  fit: BoxFit.cover,
-                ),
-                Text('$temp °C'),
-                Row(
-                  children: [
-                    Icon(Icons.water),
-                    Text('${humidity.toStringAsFixed(2)}%')
-                  ],
-                )
-              ],
+            Text(time),
+            Expanded(
+              child: Image.network(
+                icon,
+                height: 70,
+                width: 70,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Text('$temp °C'),
+            Expanded(
+              child: Row(
+                children: [
+                  const Icon(Icons.water_drop),
+                  Text('${humidity.toStringAsFixed(2)}%')
+                ],
+              ),
             )
           ],
         ),

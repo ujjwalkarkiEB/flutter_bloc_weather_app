@@ -1,4 +1,8 @@
+import 'package:intl/intl.dart';
+
 import 'forecast.dart';
+
+final dateFormat = DateFormat();
 
 class Weather {
   final String city;
@@ -46,12 +50,16 @@ class Weather {
     }
 
     final today = json['forecast']['forecastday'][0]['hour'];
+
     for (var hour in today) {
+      final formattedHour =
+          DateFormat.jm().format(DateTime.parse(hour['time']));
+      print(formattedHour);
       hourForecast.add(
         Forecast(
           temperature: hour['temp_c'].toDouble(),
           humidity: hour['humidity'].toDouble(),
-          hour: hour["time"],
+          hour: formattedHour,
           image: 'https:${hour["condition"]["icon"]}',
           weatherType: hour["condition"]["text"],
         ),
@@ -60,11 +68,13 @@ class Weather {
 
     return Weather(
         city: json['location']['name'],
-        maxTemp: json['forecast']['forecastday'][0]['day']['maxtemp_c'],
-        minTemp: json['forecast']['forecastday'][0]['day']['mintemp_c'],
-        temperature: json['current']['temp_c'],
+        maxTemp:
+            json['forecast']['forecastday'][0]['day']['maxtemp_c'].toDouble(),
+        minTemp:
+            json['forecast']['forecastday'][0]['day']['mintemp_c'].toDouble(),
+        temperature: json['current']['temp_c'].toDouble(),
         icon: 'https:${json['current']['condition']['icon']}',
-        humidity: json['current']['humidity'],
+        humidity: json['current']['humidity'].toDouble(),
         type: json['current']['condition']['text'],
         lastUpdated: json['location']['localtime'],
         hourlyForecasts: hourForecast,

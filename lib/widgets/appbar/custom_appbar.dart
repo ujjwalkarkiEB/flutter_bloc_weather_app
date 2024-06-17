@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppBar(
-      {super.key, required this.city, required this.updatedTime});
+  const CustomAppBar({
+    super.key,
+    required this.city,
+    required this.updatedTime,
+    this.onSearch,
+  });
+
   final String city;
   final String updatedTime;
+  final void Function(String)? onSearch;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -14,6 +20,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,17 +31,16 @@ class _CustomAppBarState extends State<CustomAppBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Updated ${widget.updatedTime}',
-              style: TextStyle(fontSize: 15),
+              'Last Updated: ${widget.updatedTime}',
+              style: const TextStyle(fontSize: 15),
             ),
-            Text(
-              'Your current Location: ${widget.city}',
-              style: TextStyle(fontSize: 12),
-            )
           ],
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(
+            onPressed: () => _showSearchDialog(context),
+            icon: const Icon(Icons.search),
+          ),
           PopupMenuButton<int>(
             itemBuilder: (context) => [
               const PopupMenuItem(
@@ -41,10 +48,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 child: Row(
                   children: [
                     Icon(Icons.star),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("Get The App")
+                    SizedBox(width: 10),
+                    Text("Get The App"),
                   ],
                 ),
               ),
@@ -53,10 +58,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 child: Row(
                   children: [
                     Icon(Icons.chrome_reader_mode),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("About")
+                    SizedBox(width: 10),
+                    Text("About"),
                   ],
                 ),
               ),
@@ -67,5 +70,40 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ],
       ),
     );
+  }
+
+  void _showSearchDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Search City'),
+          content: TextField(
+            controller: searchController,
+            decoration: const InputDecoration(
+              hintText: 'Enter city name',
+            ),
+            onSubmitted: (value) {
+              if (widget.onSearch != null) {
+                widget.onSearch!(value);
+              }
+              Navigator.pop(context);
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }
