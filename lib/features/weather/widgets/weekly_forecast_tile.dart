@@ -4,14 +4,14 @@ import 'package:gap/gap.dart';
 
 class WeeklyAttributeTile extends StatelessWidget {
   const WeeklyAttributeTile({
-    Key? key,
+    super.key,
     required this.icon,
     required this.dayType,
     required this.humidity,
     required this.maxTemp,
     required this.minTemp,
     required this.date,
-  }) : super(key: key);
+  });
 
   final String icon;
   final String dayType;

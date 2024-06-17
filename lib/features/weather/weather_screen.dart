@@ -143,7 +143,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 400,
+                        height: 300,
                         child: ListView.separated(
                           separatorBuilder: (context, index) => const Gap(10),
                           itemCount: weeklyForecasData.length,
