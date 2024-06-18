@@ -4,8 +4,7 @@ import '../../../utils/network/dio_interceptor.dart';
 import '../model/weather.dart';
 
 class WeatherRepository {
-  final Dio _dio = DioInterceptor.getDio(
-      'http://api.weatherapi.com/v1', '95b9d203c778474cb7e80120241406');
+  final Dio _dio = DioInterceptor.getDio('http://api.weatherapi.com/v1', null);
 
   WeatherRepository();
 
@@ -20,7 +19,10 @@ class WeatherRepository {
             'Either latitude and longitude or city name must be provided.');
       }
 
-      Map<String, dynamic> queryParameters = {'days': '7'};
+      Map<String, dynamic> queryParameters = {
+        'key': '95b9d203c778474cb7e80120241406',
+        'days': '7'
+      };
 
       if (lat != null && lon != null) {
         queryParameters['q'] = '$lat,$lon';
