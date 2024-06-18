@@ -30,8 +30,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           content: TextField(
             controller: searchController,
             decoration: const InputDecoration(
-              hintText: 'Enter city name',
-            ),
+                hintText: 'Enter city name',
+                hintStyle: TextStyle(fontSize: 14)),
             onSubmitted: (value) {
               if (widget.onSearch != null) {
                 widget.onSearch!(value);
@@ -42,7 +42,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ],
         );

@@ -33,7 +33,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
       emit(WeatherSuccessState(weatherData: weather));
     } catch (e) {
-      emit(WeatherErrorState(errMsg: 'Error in fetching data'));
+      emit(WeatherErrorState(errMsg: 'Failed to load weather data!'));
     }
   }
 

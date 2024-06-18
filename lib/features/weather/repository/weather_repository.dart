@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
-
+import '../../../utils/helpers/weather_parser.dart';
+import '../../../utils/network/dio_interceptor.dart';
 import '../model/weather.dart';
 
 class WeatherRepository {
-  final Dio _dio = Dio();
-  final String _apiKey =
-      '95b9d203c778474cb7e80120241406'; // Replace with your Weather API key
+  final Dio _dio = DioInterceptor.getDio(
+      'http://api.weatherapi.com/v1', '95b9d203c778474cb7e80120241406');
+
+  WeatherRepository();
 
   Future<Weather> getWeather({
     double? lat,
@@ -18,7 +20,7 @@ class WeatherRepository {
             'Either latitude and longitude or city name must be provided.');
       }
 
-      Map<String, dynamic> queryParameters = {'key': _apiKey, 'days': '7'};
+      Map<String, dynamic> queryParameters = {'days': '7'};
 
       if (lat != null && lon != null) {
         queryParameters['q'] = '$lat,$lon';
@@ -27,12 +29,17 @@ class WeatherRepository {
       }
 
       final response = await _dio.get(
-        'http://api.weatherapi.com/v1/forecast.json',
+        '/forecast.json',
         queryParameters: queryParameters,
       );
-
-      return Weather.fromJson(response.data);
+      return parseWeatherData(response.data);
+    } on DioException catch (e) {
+      //  Dio HTTP errors
+      print('Dio error: $e');
+      throw Exception('Failed to load weather data');
     } catch (error) {
+      //  other types of errors
+      print('Error: $error');
       throw Exception('Failed to load weather data');
     }
   }
