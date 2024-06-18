@@ -52,7 +52,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           return const Scaffold(
             appBar: CustomAppBar(
               city: 'Loading...',
-              updatedTime: '',
+              updatedTime: 'Refreshing..',
             ),
             body: Center(
               child: CircularProgressIndicator(),
@@ -142,8 +142,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           )
                         ],
                       ),
+                      const Gap(20),
                       SizedBox(
-                        height: 300,
+                        height: 400,
                         child: ListView.separated(
                           separatorBuilder: (context, index) => const Gap(10),
                           itemCount: weeklyForecasData.length,

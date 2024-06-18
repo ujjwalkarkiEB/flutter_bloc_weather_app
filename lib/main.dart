@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/location/bloc/location_bloc.dart';
+import 'package:weather_app/features/location/location_landing_page.dart';
 import 'package:weather_app/utils/themes/theme.dart';
 import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/weather_screen.dart';
@@ -22,13 +23,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LocationBloc()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: AppTheme.AppThemeData,
-        home: WeatherScreen(
-          location: LocationModel(latitude: 7, longitude: 8),
-        ),
-      ),
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: AppTheme.AppThemeData,
+          home: const LocationLandingPage()),
     );
   }
 }
