@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:weather_app/common/alertDialogs/error_dialog.dart';
 import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
 
 import '../../common/appbar/custom_appbar.dart';
@@ -23,6 +24,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
+
     context.read<WeatherBloc>().add(InitialDataFetchRequest(
           latitude: widget.location.latitude,
           longitude: widget.location.longitude,
@@ -30,7 +32,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   void _onSearch(String cityName) {
-    _searchController.clear();
     context
         .read<WeatherBloc>()
         .add(WeatherHomeSearchIconPressed(city: cityName));
@@ -42,19 +43,29 @@ class _WeatherScreenState extends State<WeatherScreen> {
     super.dispose();
   }
 
+  Future<void> _handleErrorState(BuildContext context) async {
+    await showErrorDialog(context, 'Give appropriate city name!');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WeatherBloc, WeatherState>(
+    return BlocConsumer<WeatherBloc, WeatherState>(
+      listener: (context, state) {
+        if (state is SearchErrorState) {
+          _handleErrorState(context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.runtimeType != current.runtimeType,
       builder: (context, state) {
         if (state is WeatherLoadingState) {
-          return const Scaffold(
+          return Scaffold(
             appBar: CustomAppBar(
+              showCurrentLocation: context.read<WeatherBloc>().isFirstSearch,
               city: 'Loading...',
               updatedTime: 'Refreshing..',
             ),
-            body: Center(
+            body: const Center(
               child: CircularProgressIndicator(),
             ),
           );
@@ -66,18 +77,19 @@ class _WeatherScreenState extends State<WeatherScreen> {
           final weeklyForecasData = data.weeklyForecasts;
           return Scaffold(
             appBar: CustomAppBar(
+              showCurrentLocation: context.read<WeatherBloc>().isFirstSearch,
               city: data.city,
               updatedTime: data.lastUpdated,
               onSearch: _onSearch,
             ),
             body: RefreshIndicator(
               onRefresh: () async {
-                context.read<WeatherBloc>().add(
-                      InitialDataFetchRequest(
-                        latitude: widget.location.latitude,
-                        longitude: widget.location.longitude,
-                      ),
-                    );
+                if (!context.read<WeatherBloc>().isFirstSearch) {
+                  context
+                      .read<WeatherBloc>()
+                      .add(WeatherRefreshRequestEvenet());
+                }
+                context.read<WeatherBloc>().add(WeatherRefreshRequestEvenet());
               },
               child: SingleChildScrollView(
                 child: Padding(

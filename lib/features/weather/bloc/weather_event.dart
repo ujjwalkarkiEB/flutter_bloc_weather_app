@@ -15,3 +15,9 @@ final class WeatherHomeSearchIconPressed extends WeatherEvent {
 
   WeatherHomeSearchIconPressed({required this.city});
 }
+
+final class WeatherRefreshRequestEvenet extends WeatherEvent {
+  WeatherRefreshRequestEvenet();
+}
+
+final class WeatherGetLocationButton extends WeatherEvent {}

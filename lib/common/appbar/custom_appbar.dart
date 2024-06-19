@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/features/weather/bloc/weather_bloc.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -6,23 +8,26 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.city,
     required this.updatedTime,
     this.onSearch,
+    this.showCurrentLocation = false,
   });
 
   final String city;
   final String updatedTime;
   final void Function(String)? onSearch;
+  final bool showCurrentLocation;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 5);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
   TextEditingController searchController = TextEditingController();
   void _showSearchDialog(BuildContext context) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -36,12 +41,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
               if (widget.onSearch != null) {
                 widget.onSearch!(value);
               }
+              searchController.clear();
+
               Navigator.pop(context);
             },
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+                searchController.clear();
+              },
               child: const Text(
                 'Cancel',
                 style: TextStyle(fontSize: 18),
@@ -62,14 +72,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 8, 10, 0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       child: AppBar(
+        titleSpacing: 20,
+        toolbarHeight: 80,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (!widget.showCurrentLocation)
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<WeatherBloc>().add(
+                          WeatherGetLocationButton(),
+                        );
+                  },
+                  child: const Text(
+                    'Get Your Location Data',
+                    style: TextStyle(fontSize: 14),
+                  )),
             Text(
               'Last Updated: ${widget.updatedTime}',
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: widget.showCurrentLocation ? 16 : 14),
             ),
           ],
         ),
