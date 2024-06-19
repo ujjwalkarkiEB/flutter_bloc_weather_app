@@ -1,20 +1,21 @@
-class Forecast {
-  final String? hour;
-  final String? day;
-  final double temperature;
-  final double? maxTemp;
-  final double? minTemp;
-  final double humidity;
-  final String image;
-  final String weatherType;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Forecast(
-      {required this.image,
-      required this.weatherType,
-      this.hour,
-      this.day,
-      this.maxTemp,
-      this.minTemp,
-      required this.temperature,
-      required this.humidity});
+part 'forecast.freezed.dart';
+part 'forecast.g.dart';
+
+@freezed
+class Forecast with _$Forecast {
+  const factory Forecast({
+    required double temperature,
+    required double humidity,
+    required String image,
+    double? maxTemp,
+    double? minTemp,
+    required String weatherType,
+    String? hour,
+    String? day,
+  }) = _Forecast;
+
+  factory Forecast.fromJson(Map<String, dynamic> json) =>
+      _$ForecastFromJson(json);
 }

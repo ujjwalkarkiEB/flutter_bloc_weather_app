@@ -20,3 +20,5 @@ final class WeatherErrorState extends WeatherState {
 
   WeatherErrorState({required this.errMsg});
 }
+
+final class SearchErrorState extends WeatherState {}
