@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class DioInterceptor {
-  static Dio getDio(String baseUrl, String? apiKey) {
+  static Dio getDio(String baseUrl, {String? apiKey}) {
     BaseOptions options = BaseOptions(
       baseUrl: baseUrl,
       headers: {

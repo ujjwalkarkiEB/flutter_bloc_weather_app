@@ -20,7 +20,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   State<CustomAppBar> createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 5);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 20);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -75,10 +75,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       child: AppBar(
         titleSpacing: 20,
-        toolbarHeight: 80,
+        toolbarHeight: 76,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Last Updated: ${widget.updatedTime}',
+              style: TextStyle(fontSize: widget.showCurrentLocation ? 16 : 14),
+            ),
             if (!widget.showCurrentLocation)
               ElevatedButton(
                   onPressed: () {
@@ -90,10 +94,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     'Get Your Location Data',
                     style: TextStyle(fontSize: 14),
                   )),
-            Text(
-              'Last Updated: ${widget.updatedTime}',
-              style: TextStyle(fontSize: widget.showCurrentLocation ? 16 : 14),
-            ),
           ],
         ),
         actions: [

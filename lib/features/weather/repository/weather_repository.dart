@@ -4,9 +4,7 @@ import '../../../utils/network/dio_interceptor.dart';
 import '../model/weather.dart';
 
 class WeatherRepository {
-  final Dio _dio = DioInterceptor.getDio('http://api.weatherapi.com/v1', null);
-
-  WeatherRepository();
+  final Dio _dio = DioInterceptor.getDio('http://api.weatherapi.com/v1');
 
   Future<Weather> getWeather({
     double? lat,
