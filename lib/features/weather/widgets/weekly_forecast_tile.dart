@@ -31,7 +31,6 @@ class WeeklyAttributeTile extends StatelessWidget {
         date.year == DateTime.now().year;
 
     return ListTile(
-      tileColor: isToday ? Colors.grey.withOpacity(0.5) : null,
       leading: Text(
         dayOfWeek,
         style: TextStyle(
