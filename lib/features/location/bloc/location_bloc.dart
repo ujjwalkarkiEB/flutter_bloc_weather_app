@@ -32,8 +32,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             return;
           }
         }
+        location.enableBackgroundMode(enable: true);
 
         locationData = await location.getLocation();
+
         emit(LocationFetchedState(
             longitude: locationData.longitude!,
             latitude: locationData.latitude!));

@@ -42,7 +42,7 @@ class WeeklyAttributeTile extends StatelessWidget {
       trailing: Text(
         '${maxTemp.toStringAsFixed(2)}° / ${minTemp.toStringAsFixed(2)}° C',
       ),
-      horizontalTitleGap: 20,
+      horizontalTitleGap: MediaQuery.of(context).size.width * 0.04,
       title: Row(
         children: [
           Image.network(
